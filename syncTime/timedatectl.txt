@@ -1,0 +1,60 @@
+/////to display information about current time and date on the system
+timedatectl status
+
+//to show time zone list
+sudo timedatectl list-timezones
+
+//to set the local timezone 
+sudo timedatectl set-timezone Europe/Istanbul
+
+//recommended(universal time)
+sudo timedatectl set-timezone UTC
+
+//to set time
+sudo timedatectl set-time 03:25:00
+
+//to set date
+sudo timedatectl set-time 2021-03-25
+
+//to set time and date
+sudo timedatectl set-time '2021-03-25 03:25:00'
+
+
+/////to synchronize time(virtual system)
+sudo yum install chrony
+sudo systemctl start chronyd
+
+sudo cat <<EOF>> /etc/chrony.conf
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
+EOF
+
+sudo systemctl enable chronyd
+
+sudo systemctl restart chronyd
+
+
+/////to synchronize time(networking system)
+sudo yum install ntp
+
+sudo systemctl start ntpd
+
+sudo cat <<EOF>> /etc/ntp.conf
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
+EOF
+
+sudo systemctl enable ntpd
+
+sudo systemctl restart ntpd
+
+//to disable ntp 
+sudo timedatectl set-ntp false
+
+//to start ntp
+sudo timedatectl set-ntp true
+
